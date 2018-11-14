@@ -1,0 +1,5 @@
+#!/bin/bash
+
+nohup firefox &> /dev/null & 
+nohup burpsuite  &> /dev/null &
+#nohup java -Djsse.enableSNIExtension=false -jar `which burpsuite`  &> /dev/null &

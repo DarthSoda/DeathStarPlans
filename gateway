@@ -1,0 +1,3 @@
+#!/bin/bash
+
+netstat -arunp| awk '{print $2}' | egrep -i gateway -A 1000 |  egrep -iv '0.0.0.0'

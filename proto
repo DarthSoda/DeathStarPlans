@@ -1,0 +1,45 @@
+#!/bin/python2.7
+
+
+import subprocess;
+import re;
+import os;
+
+
+ip_addr_show                      = os.popen('/sbin/ip addr show').read()
+ip_addr_data                      = ip_addr_show.replace("1: ","",1)
+ip_addr_list                      = re.split("\n[0-9]:\s?",ip_addr_data)
+
+
+def parseIp (ipAddress):
+
+    ip             = ipAddress
+    interface_list = re.search(r"^\d?.*\w:", ip)
+    ip_info        = re.search(r"inet\s+\d+\.\d+\.\d+\.\d+\/\d+.*scope", ip)
+  
+
+    if interface_list:
+        interface_name = interface_list.group()
+        interface      = interface_name.replace(":","",1)
+        interface_info =  interface
+        #print "inerface -> " + interface_list.group()
+    else:
+        print "na"
+    
+    if ip_info:
+        ip_info_data   = ip_info.group()
+        ip_data_zero   = ip_info_data.replace("inet","",1)
+        ip_data_one    = ip_data_zero.replace("scope","",1)
+        ip_data_two    = ip_data_one.replace("brd","NETMASK",1)
+        ip_info        = ip_data_two
+    else:
+       ip_info         = " No IP Found" 
+
+    print interface_info + ip_info
+
+
+for item in ip_addr_list:
+    parseIp(item)
+
+
+
